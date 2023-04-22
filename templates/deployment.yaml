@@ -35,14 +35,16 @@ spec:
             - name: {{ .Values.service.targetPort }}
               containerPort: {{ .Values.service.port }}
               protocol: {{ .Values.service.protocol }}
-          #livenessProbe:
-          #  httpGet:
-          #    path: /
-          #    port: http
-          #readinessProbe:
-          #  httpGet:
-          #    path: /
-          #    port: http
+          livenessProbe:
+           httpGet:
+             path: /
+             port: {{ .Values.service.port }}
+             scheme: {{ .Values.service.targetPort | upper }}
+          readinessProbe:
+           httpGet:
+             path: /
+             port: {{ .Values.service.port }}
+             scheme: {{ .Values.service.targetPort | upper }}
           resources:
             {{- toYaml .Values.resources | nindent 12 }}
       {{- with .Values.nodeSelector }}
