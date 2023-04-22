@@ -7,7 +7,7 @@ replicaCount: 1
 image:
   repository: ghcr.io/pmachovec/asciipinyin.web
   pullPolicy: Never
-  tag: 5adf52d
+  tag: latest
 
 imagePullSecrets: []
 nameOverride: ""
@@ -37,8 +37,9 @@ securityContext: {}
 
 service:
   type: ClusterIP
-  portHttps: 443
+  port: 443
   protocol: TCP
+  targetPort: https
 
 ingress:
   enabled: false
