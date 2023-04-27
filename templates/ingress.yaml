@@ -18,10 +18,10 @@ metadata:
   name: {{ $fullName }}
   labels:
     {{- include "chart.labels" . | nindent 4 }}
-  {{- with .Values.ingress.annotations }}
   annotations:
-    {{- toYaml . | nindent 4 }}
-  {{- end }}
+    kubernetes.io/ingress.class: {{ .Values.ingress.class }}
+    nginx.ingress.kubernetes.io/force-ssl-redirect: {{ .Values.ingress.forceSslRedirect | quote }}
+    nginx.ingress.kubernetes.io/backend-protocol: {{ .Values.service.targetPort | upper }}
 spec:
   {{- if and .Values.ingress.className (semverCompare ">=1.18-0" .Capabilities.KubeVersion.GitVersion) }}
   ingressClassName: {{ .Values.ingress.className }}
@@ -37,9 +37,8 @@ spec:
     {{- end }}
   {{- end }}
   rules:
-    {{- range .Values.ingress.hosts }}
-    - host: {{ .host | quote }}
-      http:
+    {{- range .Values.ingress.rules }}
+    - http:
         paths:
           {{- range .paths }}
           - path: {{ .path }}

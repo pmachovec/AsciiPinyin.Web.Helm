@@ -42,7 +42,13 @@ service:
   targetPort: https
 
 ingress:
-  enabled: false
+  enabled: true
+  class: nginx
+  forceSslRedirect: true
+  rules:
+    - paths:
+      - path: /
+        pathType: ImplementationSpecific
 
 resources: {}
   # We usually recommend not to specify default resources and to leave this as a conscious
