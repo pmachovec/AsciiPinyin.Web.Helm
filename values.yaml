@@ -40,6 +40,7 @@ service:
   port: 443
   protocol: TCP
   targetPort: https
+  path: /asciipinyin/
 
 ingress:
   enabled: true
@@ -47,7 +48,7 @@ ingress:
   forceSslRedirect: true
   rules:
     - paths:
-      - path: /
+      - path: /asciipinyin/
         pathType: ImplementationSpecific
 
 resources: {}

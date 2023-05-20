@@ -37,12 +37,12 @@ spec:
               protocol: {{ .Values.service.protocol }}
           livenessProbe:
            httpGet:
-             path: /
+             path: {{ .Values.service.path }}
              port: {{ .Values.service.port }}
              scheme: {{ .Values.service.targetPort | upper }}
           readinessProbe:
            httpGet:
-             path: /
+             path: {{ .Values.service.path }}
              port: {{ .Values.service.port }}
              scheme: {{ .Values.service.targetPort | upper }}
           resources:
