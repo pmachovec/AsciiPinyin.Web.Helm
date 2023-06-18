@@ -75,3 +75,14 @@ nodeSelector: {}
 tolerations: []
 
 affinity: {}
+
+ingress-nginx:
+  enabled: true
+
+  controller:
+    admissionWebhooks:
+      enabled: false
+    service:
+      enableHttp: false
+      ports:
+        https: 443
