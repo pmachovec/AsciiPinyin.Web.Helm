@@ -78,7 +78,6 @@ affinity: {}
 
 ingress-nginx:
   enabled: true
-
   controller:
     admissionWebhooks:
       enabled: false
@@ -86,3 +85,36 @@ ingress-nginx:
       enableHttp: false
       ports:
         https: 443
+
+configmap:
+  name: nlog.config.yaml
+  filename: nlog.config.yaml
+  volume:
+    name: nlog
+    mountPath: /app/NLog
+  data:
+    NLog:
+      throwConfigExceptions: true
+      extensions:
+      - assembly: "AsciiPinyin.Web.Client"
+      targets:
+        jsinteropconsole:
+          type: JSInteropConsoleTarget
+        logconsole:
+          type: Console
+      rules:
+      - logger: "AsciiPinyin.Web.Client.*"
+        minLevel: Info
+        writeTo: jsinteropconsole
+        final: true
+      - logger: "AsciiPinyin.Web.Server.*"
+        minLevel: Info
+        writeTo: logconsole
+        final: true
+      - logger: "Microsoft.*"
+        minLevel: Warn
+        writeTo: logconsole
+        final: true
+      - logger: "*"
+        minLevel: Warn
+        writeTo: logconsole

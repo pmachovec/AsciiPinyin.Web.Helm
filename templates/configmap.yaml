@@ -1,0 +1,7 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: {{ .Values.configmap.name }}
+data: 
+  {{ .Values.configmap.filename }}: |
+    {{- toYaml $.Values.configmap.data | nindent 4 }}
