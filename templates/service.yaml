@@ -1,16 +1,15 @@
 apiVersion: v1
 kind: Service
 metadata:
-  name: {{ include "chart.fullname" . }}
+  name: {{ .Release.Name }}-svc
   labels:
-    {{- include "chart.labels" . | nindent 4 }}
+    app: {{ .Chart.Name }} # Decides which pods the trafic is routed to, must match spec.template.metadata.labels in the deployment.
 spec:
   type: {{ .Values.service.type }}
-  ports:
-    - port: {{ .Values.service.port }}
-      protocol: {{ .Values.service.protocol }}
-      targetPort: {{ .Values.service.targetPort }}
-      name: {{ .Values.service.targetPort }}
   selector:
-    app.kubernetes.io/name: {{ .Chart.Name }}
-    app.kubernetes.io/instance: {{ .Release.Name }}
+    app: {{ .Chart.Name }} 
+  ports:
+    - name: https
+      port: {{ .Values.service.port }} # Port on which the service is reachable.
+      targetPort: {{ .Values.service.port }} # Port of the pod, must match the containerPort from the deployment.
+      protocol: {{ .Values.service.protocol }}
